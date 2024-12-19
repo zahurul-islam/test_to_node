@@ -117,7 +117,7 @@ pytest tests/
 
 - Base Model: `bartowski/codegemma-7b-GGUF`
 - Training Split: 85% training, 13% validation, 2% testing
-- Fine-tuned on approximately 1000 examples
+- Fine-tuned on approximately 1050 examples
 - Optimized for RTX 4090 GPU
 
 ## License
