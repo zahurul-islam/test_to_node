@@ -16,101 +16,78 @@ Text-to-Node is an AI-powered system that analyzes natural language descriptions
 
 Due to hardware constraints, we use a quantized version of the original model:
 
-- Base Model: `bartowski/codegemma-7b-GGUF` (download from Huggingface)
+- Base Model: `download 'codegemma-7b.Q4_K_M.gguf' from 'bartowski/codegemma-7b-GGUF` (download from Huggingface)
 - Place the model in the `model` folder before running
 
-## Project Structure
-
-```
-text_to_node/
-├── data/
-│   └── training_data.json
-├── src/
-│   ├── __init__.py
-│   ├── evaluator.py
-│   ├── data_processor.py
-│   ├── model.py
-│   ├── config.py
-│   └── train.py
-	
-├── tests/
-│   ├── __init__.py
-│   ├── test_model.py
-│   
-│   
-├── model/
-│   └── [place model files here]
-├── Dockerfile
-├── main.py
-└── requirements.txt
-```
-
-## Installation & Setup
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/text-to-node.git
-cd text-to-node
-```
-
-2. Create and activate a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
+## Installation
+1. Clone this repository
+2. Install requirements:
 ```bash
 pip install -r requirements.txt
 ```
 
-## Training and Evaluation
-
-1. Run the main training script:
+## Docker
+Build the Docker image:
 ```bash
-python src/main.py
+docker build -t incari-ml .
 ```
 
-2. Start the API server:
+Run the container:
 ```bash
-uvicorn src.api:app --host 0.0.0.0 --port 8000
+docker run -p 8000:8000 incari-ml
 ```
 
-## Docker Deployment
-
-1. Build the Docker image:
+## Usage
+### Training
+Run the training script:
 ```bash
-docker build -t text-to-node .
+python src/train.py
 ```
 
-2. Run the container:
+### Inference
+Start the API server:
 ```bash
-docker run -p 8000:8000 text-to-node
+python src/api/main.py
 ```
 
-## API Usage
-
-The API endpoint accepts POST requests with text descriptions and returns the corresponding node sequences.
-
-Example request:
+### Testing
+Run unit tests:
 ```bash
-curl -X POST "http://localhost:8000/predict" \
-     -H "Content-Type: application/json" \
-     -d '{"text": "When user clicks submit button, validate form data and show confirmation"}'
+python src/test.py
 ```
 
-Example response:
-```json
-{
-    "nodes": ["OnClick", "Branch", "Show"]
-}
+## File Structure
+```
+.
+├── checkpoints/          # Training checkpoints
+├── data/                 # Training data
+│   └── training_examples.json
+├── models/               # Pretrained models
+│   ├ 
+│   └── codegemma-7b.Q4_K_M.gguf
+├── src/                  # Source code
+│   ├── api/              # API implementation
+│   │   └── main.py
+│   ├── main.py           # Main entry point
+│   ├── preprocess.py     # Data preprocessing
+│   ├── test_api.py       # API tests
+│   ├── test.py           # Unit tests
+│   └── train.py          # Training script
+├── Dockerfile            # Container configuration
+├── requirements.txt      # Python dependencies
+└── README.md             # Project documentation
 ```
 
-## Testing
+## Models
+- codegemma-7b.Q4_K_M.gguf
 
-Run the test suite:
+## Training
+Training checkpoints are saved in the `checkpoints/` directory with timestamps.
+
+## API
+The API is implemented using FastAPI and can be started with:
 ```bash
-pytest tests/
+python src/api/main.py
 ```
 
 ## Model Details
