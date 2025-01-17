@@ -48,8 +48,8 @@ def main():
     model = Llama(
         model_path=model_path,
         n_ctx=2048,  # Context length
-        n_threads=4,  # Number of CPU threads
-        n_gpu_layers=0  # Number of layers to offload to GPU (0 for CPU-only)
+        n_threads=16,  # Number of CPU threads
+        n_gpu_layers=-1  # Number of layers to offload to GPU (0 for CPU-only)
     )
     
     # Load tokenizer
